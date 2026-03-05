@@ -1227,6 +1227,90 @@ export type Database = {
         }
         Relationships: []
       }
+      vocabulary_questions: {
+        Row: {
+          id: string
+          word_id: string
+          question_type: string
+          question_text: string
+          options: string[] | null
+          correct_answer: string
+          explanation: string | null
+          word_usage: string | null
+          difficulty_level: number | null
+          generated_by: string | null
+          quality_score: number | null
+          is_verified: boolean | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          word_id: string
+          question_type: string
+          question_text: string
+          options?: string[] | null
+          correct_answer: string
+          explanation?: string | null
+          word_usage?: string | null
+          difficulty_level?: number | null
+          generated_by?: string | null
+          quality_score?: number | null
+          is_verified?: boolean | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          word_id?: string
+          question_type?: string
+          question_text?: string
+          options?: string[] | null
+          correct_answer?: string
+          explanation?: string | null
+          word_usage?: string | null
+          difficulty_level?: number | null
+          generated_by?: string | null
+          quality_score?: number | null
+          is_verified?: boolean | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      },
+      user_question_history: {
+        Row: {
+          id: string
+          user_id: string
+          question_id: string
+          is_correct: boolean
+          user_answer: string | null
+          response_time: number | null
+          attempts_count: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          question_id: string
+          is_correct: boolean
+          user_answer?: string | null
+          response_time?: number | null
+          attempts_count?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          question_id?: string
+          is_correct?: boolean
+          user_answer?: string | null
+          response_time?: number | null
+          attempts_count?: number | null
+          created_at?: string
+        }
+        Relationships: []
+      },
       achievements: {
         Row: {
           id: string
@@ -1268,7 +1352,7 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
-      }
+      },
       review_logs: {
         Row: {
           id: string
@@ -1355,7 +1439,7 @@ export type Database = {
           created_at?: string
         }
         Relationships: []
-      }
+      },
     }
     Views: {}
     Functions: {}
