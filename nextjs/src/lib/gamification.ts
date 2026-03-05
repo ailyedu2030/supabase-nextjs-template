@@ -4,7 +4,9 @@
  */
 
 import { createSPAClient } from "@/lib/supabase/client";
-import { UserGamification } from "@/store/vocabularyStore";
+import type { Tables } from "@/lib/types";
+
+type UserGamification = Tables<'user_gamification'>;
 
 // XP Rewards
 export const XP_REWARDS = {

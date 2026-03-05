@@ -7,8 +7,216 @@ export type Json =
   | Json[]
 
 export type Database = {
-  __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+  storage: {
+    Tables: {
+      buckets: {
+        Row: {
+          id: string
+          name: string
+          owner: string | null
+          created_at: string | null
+          updated_at: string | null
+          public: boolean | null
+          avif_autodetection: boolean | null
+          file_size_limit: number | null
+          allowed_mime_types: string[] | null
+        }
+        Insert: {
+          id: string
+          name: string
+          owner?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+          public?: boolean | null
+          avif_autodetection?: boolean | null
+          file_size_limit?: number | null
+          allowed_mime_types?: string[] | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          owner?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+          public?: boolean | null
+          avif_autodetection?: boolean | null
+          file_size_limit?: number | null
+          allowed_mime_types?: string[] | null
+        }
+        Relationships: []
+      }
+      migrations: {
+        Row: {
+          id: number
+          name: string
+          hash: string
+          executed_at: string | null
+        }
+        Insert: {
+          id?: number
+          name: string
+          hash: string
+          executed_at?: string | null
+        }
+        Update: {
+          id?: number
+          name?: string
+          hash?: string
+          executed_at?: string | null
+        }
+        Relationships: []
+      }
+      objects: {
+        Row: {
+          id: string
+          bucket_id: string | null
+          name: string | null
+          owner: string | null
+          created_at: string | null
+          updated_at: string | null
+          last_accessed_at: string | null
+          metadata: Json | null
+          path_tokens: string[] | null
+          version: string | null
+        }
+        Insert: {
+          id?: string
+          bucket_id?: string | null
+          name?: string | null
+          owner?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          path_tokens?: string[] | null
+          version?: string | null
+        }
+        Update: {
+          id?: string
+          bucket_id?: string | null
+          name?: string | null
+          owner?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          path_tokens?: string[] | null
+          version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "objects_bucketId_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      s3_multipart_uploads: {
+        Row: {
+          id: string
+          in_progress_size: number
+          upload_id: string
+          key: string
+          bucket_id: string
+          owner_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          in_progress_size?: number
+          upload_id: string
+          key: string
+          bucket_id: string
+          owner_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          in_progress_size?: number
+          upload_id?: string
+          key?: string
+          bucket_id?: string
+          owner_id?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      s3_multipart_uploads_parts: {
+        Row: {
+          id: string
+          upload_id: string
+          key: string
+          bucket_id: string
+          etag: string
+          owner_id: string | null
+          part_number: number
+          size: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          upload_id: string
+          key: string
+          bucket_id: string
+          etag: string
+          owner_id?: string | null
+          part_number: number
+          size?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          upload_id?: string
+          key?: string
+          bucket_id?: string
+          etag?: string
+          owner_id?: string | null
+          part_number?: number
+          size?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
   public: {
     Tables: {
@@ -418,36 +626,6 @@ export type Database = {
           mastered_at?: string | null
           consecutive_correct_count?: number | null
           review_interval_index?: number | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-        Insert: {
-          id?: string
-          user_id?: string | null
-          question_id?: string | null
-          training_session_id?: string | null
-          user_answer: string
-          correct_answer: string
-          error_count?: number
-          last_reviewed_at?: string | null
-          next_review_at?: string | null
-          mastered_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          user_id?: string | null
-          question_id?: string | null
-          training_session_id?: string | null
-          user_answer?: string
-          correct_answer?: string
-          error_count?: number
-          last_reviewed_at?: string | null
-          next_review_at?: string | null
-          mastered_at?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -1199,31 +1377,46 @@ export type Database = {
           id: string
           user_id: string | null
           session_date: string
+          words_reviewed: number
+          words_learned: number
           correct_answers: number
           total_questions: number
+          session_duration_minutes: number
           xp_earned: number
+          is_complete: boolean
+          completed_at: string | null
           created_at: string
           updated_at: string
         }
         Insert: {
           id?: string
           user_id?: string | null
-          session_date: string
-          correct_answers?: number
-          total_questions?: number
-          xp_earned?: number
-          created_at?: string
-          updated_at?: string
+          session_date?: string | null
+          words_reviewed?: number | null
+          words_learned?: number | null
+          correct_answers?: number | null
+          total_questions?: number | null
+          session_duration_minutes?: number | null
+          xp_earned?: number | null
+          is_complete?: boolean | null
+          completed_at?: string | null
+          created_at?: string | null
+          updated_at?: string | null
         }
         Update: {
           id?: string
           user_id?: string | null
-          session_date?: string
-          correct_answers?: number
-          total_questions?: number
-          xp_earned?: number
-          created_at?: string
-          updated_at?: string
+          session_date?: string | null
+          words_reviewed?: number | null
+          words_learned?: number | null
+          correct_answers?: number | null
+          total_questions?: number | null
+          session_duration_minutes?: number | null
+          xp_earned?: number | null
+          is_complete?: boolean | null
+          completed_at?: string | null
+          created_at?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -1439,107 +1632,204 @@ export type Database = {
           created_at?: string
         }
         Relationships: []
+<<<<<<< HEAD
       },
+=======
+      }
+      vocabulary_questions: {
+        Row: {
+          id: string
+          word_id: string
+          question_type: string
+          question_text: string
+          options: string[] | null
+          correct_answer: string
+          explanation: string | null
+          word_usage: string | null
+          difficulty_level: number | null
+          generated_by: string | null
+          quality_score: number | null
+          is_verified: boolean | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          word_id: string
+          question_type: string
+          question_text: string
+          options?: string[] | null
+          correct_answer: string
+          explanation?: string | null
+          word_usage?: string | null
+          difficulty_level?: number | null
+          generated_by?: string | null
+          quality_score?: number | null
+          is_verified?: boolean | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          word_id?: string
+          question_type?: string
+          question_text?: string
+          options?: string[] | null
+          correct_answer?: string
+          explanation?: string | null
+          word_usage?: string | null
+          difficulty_level?: number | null
+          generated_by?: string | null
+          quality_score?: number | null
+          is_verified?: boolean | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_question_history: {
+        Row: {
+          id: string
+          user_id: string
+          question_id: string
+          is_correct: boolean
+          user_answer: string | null
+          response_time: number | null
+          attempts_count: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          question_id: string
+          is_correct: boolean
+          user_answer?: string | null
+          response_time?: number | null
+          attempts_count?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          question_id?: string
+          is_correct?: boolean
+          user_answer?: string | null
+          response_time?: number | null
+          attempts_count?: number | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
-    Views: {}
-    Functions: {}
-    Enums: {}
-    CompositeTypes: {}
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+>>>>>>> 2926435 (Fixed TypeScript errors)
+    }
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
-
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof (
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-          DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"]
-      )
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-} ? (
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"]
-    )[TableName] extends {
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
-    } ? R : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"]) ? (
-      DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-      Row: infer R
-    } ? R : never : never
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
 
 export type TablesInsert<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  } ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-} ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
-    } ? I : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"] ? (
-      DefaultSchema["Tables"])[DefaultSchemaTableNameOrOptions] extends {
-      Insert: infer I
-    } ? I : never : never
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
 
 export type TablesUpdate<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  } ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-} ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
-    } ? U : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"] ? (
-      DefaultSchema["Tables"])[DefaultSchemaTableNameOrOptions] extends {
-      Update: infer U
-    } ? U : never : never
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
 
 export type Enums<
-  DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  } ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"] : never = never,
-> = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-} ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"] ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions] : never
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof DatabaseWithoutInternals },
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  } ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"] : never = never,
-> = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-} ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"] ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions] : never
-
-export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
-  public: {
-    Enums: {},
-  },
-} as const
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
