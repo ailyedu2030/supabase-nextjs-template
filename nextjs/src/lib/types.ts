@@ -1632,9 +1632,6 @@ export type Database = {
           created_at?: string
         }
         Relationships: []
-<<<<<<< HEAD
-      },
-=======
       }
       vocabulary_questions: {
         Row: {
@@ -1732,7 +1729,7 @@ export type Database = {
     }
     CompositeTypes: {
       [_ in never]: never
->>>>>>> 2926435 (Fixed TypeScript errors)
+    }
     }
   }
 }
